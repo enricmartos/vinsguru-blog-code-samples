@@ -1,6 +1,6 @@
 package com.vinsguru.subscriber;
 
-import com.vinsguru.dto.Joke;
+import com.vinsguru.dto.Message;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,12 +21,12 @@ public class RedisSubscriberApplication {
     }
 
     @Bean
-    public ReactiveRedisOperations<String, Joke> jokeTemplate(LettuceConnectionFactory lettuceConnectionFactory){
-        RedisSerializer<Joke> valueSerializer = new Jackson2JsonRedisSerializer<>(Joke.class);
-        RedisSerializationContext<String, Joke> serializationContext = RedisSerializationContext.<String, Joke>newSerializationContext(RedisSerializer.string())
+    public ReactiveRedisOperations<String, Message> jokeTemplate(LettuceConnectionFactory lettuceConnectionFactory){
+        RedisSerializer<Message> valueSerializer = new Jackson2JsonRedisSerializer<>(Message.class);
+        RedisSerializationContext<String, Message> serializationContext = RedisSerializationContext.<String, Message>newSerializationContext(RedisSerializer.string())
                 .value(valueSerializer)
                 .build();
-        return new ReactiveRedisTemplate<String, Joke>(lettuceConnectionFactory, serializationContext);
+        return new ReactiveRedisTemplate<>(lettuceConnectionFactory, serializationContext);
     }
 
 }
